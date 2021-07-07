@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'jsonapi/utils/version'
@@ -19,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'jsonapi-resources', '0.9.11'
+  spec.add_runtime_dependency 'jsonapi-resources', '0.9.12'
 
   spec.add_development_dependency 'factory_bot', '~> 5.1'
   spec.add_development_dependency 'pry', '~> 0.12', '>= 0.12.2'
