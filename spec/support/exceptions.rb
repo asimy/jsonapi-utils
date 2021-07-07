@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Exceptions
   class MyCustomError < ::JSONAPI::Exceptions::Error
     attr_accessor :object

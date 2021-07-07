@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI::Utils::Support::Filter
   module Custom
     def _custom_filters

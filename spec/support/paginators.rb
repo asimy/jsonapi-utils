@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomOffsetPaginator < OffsetPaginator
   def pagination_range(page_params)
     offset = page_params['offset'].to_i.nonzero? || 0

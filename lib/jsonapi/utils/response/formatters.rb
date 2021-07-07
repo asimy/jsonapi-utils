@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI
   module Utils
     module Response
@@ -39,7 +41,7 @@ module JSONAPI
           build_response_document(object, options).contents
         end
 
-        alias_method :jsonapi_serialize, :jsonapi_format
+        alias jsonapi_serialize jsonapi_format
 
         # Helper method to format ActiveRecord or any object that responds to #errors
         # into JSON API-compliant error response bodies.
@@ -62,7 +64,7 @@ module JSONAPI
           JSONAPI::Utils::Support::Error.sanitize(errors).uniq
         end
 
-        alias_method :jsonapi_serialize_errors, :jsonapi_format_errors
+        alias jsonapi_serialize_errors jsonapi_format_errors
 
         private
 
@@ -184,6 +186,7 @@ module JSONAPI
         # @api private
         def fix_custom_request_options(object)
           return unless custom_get_request_with_params?
+
           action = object.respond_to?(:to_ary) ? 'index' : 'show'
           @request.send("setup_#{action}_action", params)
         end
@@ -194,7 +197,7 @@ module JSONAPI
         #
         # @api private
         def custom_get_request_with_params?
-          request.method =~ /get/i && !%w(index show).include?(params[:action]) && !params.nil?
+          request.method =~ /get/i && !%w[index show].include?(params[:action]) && !params.nil?
         end
 
         # Turn a collection of AR or Hash objects into a collection of JSONAPI::Resource ones.
@@ -247,7 +250,8 @@ module JSONAPI
         #
         # @api private
         def turn_source_into_resource(record)
-          return record if record.kind_of?(JSONAPI::Resource)
+          return record if record.is_a?(JSONAPI::Resource)
+
           @request.source_klass.new(record, context)
         end
 
@@ -306,6 +310,7 @@ module JSONAPI
         # @api private
         def hash_to_active_record(data, model)
           return data if model.nil?
+
           coerced = [data].flatten.map { |hash| model.new(hash) }
           data.is_a?(Array) ? coerced : coerced.first
         rescue ActiveRecord::UnknownAttributeError

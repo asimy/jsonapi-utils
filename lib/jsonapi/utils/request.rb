@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI::Utils
   module Request
     # Setup and check request before action gets actually evaluated.
@@ -9,8 +11,8 @@ module JSONAPI::Utils
     rescue JSONAPI::Exceptions::InvalidResource,
            JSONAPI::Exceptions::InvalidField,
            JSONAPI::Exceptions::InvalidInclude,
-           JSONAPI::Exceptions::InvalidSortCriteria => err
-      jsonapi_render_errors(json: err)
+           JSONAPI::Exceptions::InvalidSortCriteria => e
+      jsonapi_render_errors(json: e)
     end
 
     # Instantiate the request object.
@@ -45,11 +47,11 @@ module JSONAPI::Utils
     def process_request
       operations = @request.operations
       unless JSONAPI.configuration.resource_cache.nil?
-        operations.each {|op| op.options[:cache_serializer] = resource_serializer }
+        operations.each { |op| op.options[:cache_serializer] = resource_serializer }
       end
       results = process_operations(operations)
       render_results(results)
-    rescue => e
+    rescue StandardError => e
       handle_exceptions(e)
     end
 
@@ -82,7 +84,7 @@ module JSONAPI::Utils
     def build_params_for(param_type)
       return {} if @request.operations.empty?
 
-      keys = %i(attributes to_one to_many)
+      keys = %i[attributes to_one to_many]
       operation = @request.operations.find { |e| e.options[:data].keys & keys == keys }
 
       if operation.nil?

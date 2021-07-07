@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UsersController, type: :controller do
@@ -47,7 +49,7 @@ describe UsersController, type: :controller do
         get :index, params: { fields: { users: :first_name } }
         expect(response).to have_http_status :ok
         expect(response).to have_primary_data('users')
-        expect(response).to have_data_attributes(%w(first_name))
+        expect(response).to have_data_attributes(%w[first_name])
       end
     end
 
@@ -152,7 +154,6 @@ describe UsersController, type: :controller do
             expect(json.dig('links', 'last')).to be_present
           end
         end
-
 
         context 'when filtering with pagination' do
           let(:count) { User.where(user.slice(:first_name, :last_name)).count }

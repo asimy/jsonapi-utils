@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CategoryResource < JSONAPI::Resource
   attribute :title
   has_many :posts

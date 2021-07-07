@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # General configs
 ##
@@ -45,7 +47,7 @@ class TestApp < Rails::Application
     ActiveSupport::JSON::Encoding.time_precision = 0
 
   I18n.enforce_available_locales = false
-  I18n.available_locales = [:en, :ru]
+  I18n.available_locales = %i[en ru]
   I18n.default_locale = :en
   I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 end

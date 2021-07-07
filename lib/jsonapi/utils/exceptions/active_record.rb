@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI
   module Utils
     module Exceptions
@@ -59,11 +61,11 @@ module JSONAPI
         # @api private
         def build_error(field, message, index = 0)
           error = error_base
-            .merge(
-              id: id_member(field, index),
-              title: message,
-              detail: detail_member(field, message)
-            ).merge(source_member(field))
+                  .merge(
+                    id: id_member(field, index),
+                    title: message,
+                    detail: detail_member(field, message)
+                  ).merge(source_member(field))
           JSONAPI::Error.new(error)
         end
 
@@ -108,9 +110,9 @@ module JSONAPI
         # @api private
         def key_format(field)
           @formatted_key[field] ||= JSONAPI.configuration
-            .key_formatter
-            .format(resource_key_for(field))
-            .to_sym
+                                           .key_formatter
+                                           .format(resource_key_for(field))
+                                           .to_sym
         end
 
         # Build the "source" member value for the JSON API error object.
@@ -124,7 +126,10 @@ module JSONAPI
         # @api private
         def source_member(field)
           resource_key = resource_key_for(field)
-          return {} unless field == :base || resource.fetchable_fields.include?(resource_key)
+          unless field == :base || resource.fetchable_fields.include?(resource_key)
+            return {}
+          end
+
           id = key_format(field)
 
           pointer =
@@ -147,6 +152,7 @@ module JSONAPI
         # @api private
         def detail_member(field, message)
           return message if field == :base
+
           resource_key = resource_key_for(field)
           [translation_for(resource_key), message].join(' ')
         end
@@ -163,6 +169,7 @@ module JSONAPI
         def resource_key_for(field)
           @resource_key_for[field] ||= begin
             return field unless foreign_keys.include?(field)
+
             relationships.find { |r| r.foreign_key == field }.name.to_sym
           end
         end

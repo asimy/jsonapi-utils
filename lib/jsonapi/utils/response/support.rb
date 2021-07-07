@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jsonapi/utils/support/error'
 require 'jsonapi/utils/support/filter/default'
 require 'jsonapi/utils/support/pagination'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jsonapi-resources'
 require 'jsonapi/utils/version'
 require 'jsonapi/utils/exceptions'

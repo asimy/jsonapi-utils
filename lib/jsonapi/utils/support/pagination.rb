@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI
   module Utils
     module Support
@@ -56,6 +58,7 @@ module JSONAPI
         # @api public
         def pagination_params(records, options)
           return {} unless include_pagination_links?
+
           paginator.links_page_params(record_count: record_count_for(records, options))
         end
 
@@ -210,12 +213,12 @@ module JSONAPI
         # @api private
         def count_records_from_database(records, options)
           records = apply_filter(records, options) if params[:filter].present?
-          count   = -> (records, except:) do
+          count   = lambda do |records, except:|
             records.except(*except).count(distinct_count_sql(records))
           end
-          count.(records, except: %i(includes group order))
+          count.call(records, except: %i[includes group order])
         rescue ActiveRecord::StatementInvalid
-          count.(records, except: %i(group order))
+          count.call(records, except: %i[group order])
         end
 
         # Build the SQL distinct count with some reflection on the "records" object.

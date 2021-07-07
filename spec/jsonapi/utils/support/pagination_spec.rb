@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe JSONAPI::Utils::Support::Pagination do
@@ -67,12 +69,12 @@ describe JSONAPI::Utils::Support::Pagination do
 
     context 'when no strategy can be applied' do
       let(:records) { Object.new }
-      let(:count)   { }
+      let(:count)   {}
 
       it 'raises an error' do
-        expect {
+        expect do
           subject.send(:count_records, records, options)
-        }.to raise_error(JSONAPI::Utils::Support::Pagination::RecordCountError)
+        end.to raise_error(JSONAPI::Utils::Support::Pagination::RecordCountError)
       end
     end
   end
@@ -99,7 +101,7 @@ describe JSONAPI::Utils::Support::Pagination do
       it_behaves_like 'counting pages'
     end
 
-    context 'with 0 records'  do
+    context 'with 0 records' do
       let(:record_count) { 0 }
       let(:page_count) { 0 }
       let(:page_params) { {} }

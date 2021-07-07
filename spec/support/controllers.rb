@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'support/exceptions'
 
 class BaseController < ActionController::Base
@@ -7,7 +9,7 @@ class BaseController < ActionController::Base
 end
 
 class PostsController < BaseController
-  before_action :load_user, only: %i(index get_related_resources)
+  before_action :load_user, only: %i[index get_related_resources]
 
   # GET /users/:user_id/posts
   def index
@@ -21,7 +23,7 @@ class PostsController < BaseController
       { id: 2, title: 'Dolor Sit', body: 'Body 2' },
       { id: 3, title: 'Dolor Sit', body: 'Body 3' },
       { id: 4, title: 'Dolor Sit', body: 'Body 1' }
-    ]}
+    ] }
     # Example of response rendering from Hash + options:
     jsonapi_render json: @posts, options: { model: Post }
   end
@@ -51,13 +53,13 @@ class PostsController < BaseController
 
   # GET /users/:user_id/posts
   def get_related_resources
-    if params[:source] == "users" && params[:relationship] == "posts"
+    if params[:source] == 'users' && params[:relationship] == 'posts'
       # Example for custom method to fetch related resources
       @posts = @user.posts
 
       jsonapi_render json: @posts, options: {
-        source: (params[:use_resource] == "true") ? UserResource.new(@user, context) : @user,
-        relationship: (params[:explicit_relationship] == "true") ? 'posts' : nil
+        source: params[:use_resource] == 'true' ? UserResource.new(@user, context) : @user,
+        relationship: params[:explicit_relationship] == 'true' ? 'posts' : nil
       }
     else
       # handle other requests with default method

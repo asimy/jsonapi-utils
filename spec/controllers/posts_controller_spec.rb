@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PostsController, type: :controller do
@@ -154,7 +156,7 @@ describe PostsController, type: :controller do
 
   describe 'GET #show' do
     context 'with ActiveRecord' do
-      subject { get :show, params: { id: blog_post.id  } }
+      subject { get :show, params: { id: blog_post.id } }
 
       it 'renders a single post' do
         expect(subject).to have_http_status :ok
@@ -358,13 +360,15 @@ describe PostsController, type: :controller do
   describe 'GET #related_resources' do
     shared_context 'related_resources request' do |use_resource:, explicit_relationship:|
       subject { get :get_related_resources, params: params }
-      let (:params) { {
-        source: "users",
-        user_id: parent_id,
-        relationship: "posts",
-        use_resource: use_resource,
-        explicit_relationship: explicit_relationship
-      } }
+      let (:params) do
+        {
+          source: 'users',
+          user_id: parent_id,
+          relationship: 'posts',
+          use_resource: use_resource,
+          explicit_relationship: explicit_relationship
+        }
+      end
     end
 
     context 'using model as source' do
@@ -396,7 +400,6 @@ describe PostsController, type: :controller do
         expect(json.dig('links', 'last')).to include("/users/#{parent_id}/posts")
       end
     end
-
 
     context 'using resource as source' do
       include_context 'related_resources request', use_resource: true, explicit_relationship: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI
   module Utils
     module Response
@@ -14,7 +16,7 @@ module JSONAPI
         #
         # @option options [JSONAPI::Resource] resource: it tells the render which resource
         #   class to be used rather than use an infered one (default behaviour)
-        # 
+        #
         # @option options [JSONAPI::Resource] source_resource: it tells the render that this response is from a related resource
         #   and the result should be interpreted as a related resources response
         #
@@ -33,7 +35,7 @@ module JSONAPI
         def jsonapi_render(json:, status: nil, options: {})
           body = jsonapi_format(json, options)
           render json: body, status: (status || @_response_document.status)
-        rescue => e
+        rescue StandardError => e
           handle_exceptions(e) # http://bit.ly/2sEEGTN
         ensure
           correct_media_type
@@ -81,7 +83,7 @@ module JSONAPI
         #
         # @api public
         def jsonapi_render_not_found(exception)
-          id = exception.message =~ /=([\w-]+)/ && $1 || '(no identifier)'
+          id = exception.message =~ /=([\w-]+)/ && Regexp.last_match(1) || '(no identifier)'
           jsonapi_render_errors(JSONAPI::Exceptions::RecordNotFound.new(id))
         end
 

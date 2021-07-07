@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'jsonapi/utils/response/formatters'
 require 'jsonapi/utils/response/renders'
 require 'jsonapi/utils/response/support'

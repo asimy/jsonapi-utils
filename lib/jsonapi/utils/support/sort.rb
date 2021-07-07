@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JSONAPI::Utils::Support
   module Sort
     # Apply sort on result set (ascending by default).
@@ -13,7 +15,7 @@ module JSONAPI::Utils::Support
       return records unless params[:sort].present?
 
       if records.is_a?(Array)
-        records.sort { |a, b| comp = 0; eval(sort_criteria) }
+        records.sort { |_a, _b| comp = 0; eval(sort_criteria) }
       elsif records.respond_to?(:order)
         records.order(sort_params)
       end

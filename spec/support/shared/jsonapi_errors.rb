@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'JSON API invalid request' do
   context 'when request is invalid' do
     context 'with "include"' do
